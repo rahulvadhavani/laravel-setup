@@ -1,0 +1,267 @@
+.noUi-target,
+.noUi-target * {
+  -webkit-touch-callout: none;
+  -ms-touch-action: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.noUi-target {
+  position: relative;
+  direction: ltr;
+}
+
+.noUi-base {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  /* Fix 401 */
+}
+
+.noUi-origin {
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.noUi-handle {
+  position: relative;
+  z-index: 1;
+  transition: all .2s ease;
+}
+
+.noUi-stacking .noUi-handle {
+  /* This class is applied to the lower origin when
+   its values is > 50%. */
+  z-index: 10;
+}
+
+.noUi-state-tap .noUi-origin {
+  -webkit-transition: left 0.3s, top 0.3s;
+  transition: left 0.3s, top 0.3s;
+}
+
+.noUi-state-drag * {
+  cursor: inherit !important;
+}
+
+/* Painting and performance;
+ * Browsers can paint handles in their own layer.
+ */
+.noUi-base,
+.noUi-handle {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Slider size and handle placement;
+ */
+.noUi-horizontal {
+  height: 3px;
+  margin-bottom: 20px;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 18px;
+  height: 18px;
+  left: -10px;
+  top: -7px;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+
+/* Styling;
+ */
+.noUi-background {
+  background-color: #bfbfbf;
+}
+
+.noUi-connect, .noUi-handle {
+  background: #3FB8AF;
+}
+
+.noUi-origin, .noUi-target {
+  border-radius: 2px;
+}
+
+/* Handles and cursors;
+ */
+.noUi-draggable {
+  cursor: w-resize;
+}
+
+.noUi-vertical .noUi-draggable {
+  cursor: n-resize;
+}
+
+.noUi-handle {
+  cursor: pointer;
+}
+
+/* Disabled state;
+ */
+[disabled].noUi-connect,
+[disabled] .noUi-connect {
+  background: #B8B8B8;
+}
+
+[disabled].noUi-origin,
+[disabled] .noUi-handle {
+  cursor: not-allowed;
+}
+
+/* Pips;
+ *
+ */
+.noUi-pips,
+.noUi-pips * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.noUi-pips {
+  position: absolute;
+  font-size: 11px;
+}
+
+.noUi-value {
+  width: 40px;
+  position: absolute;
+  text-align: center;
+}
+
+.noUi-value-sub {
+  color: #ccc;
+  font-size: 10px;
+}
+
+.noUi-marker {
+  position: absolute;
+  background: #CCC;
+}
+
+.noUi-marker-sub {
+  background: #AAA;
+}
+
+.noUi-marker-large {
+  background: #AAA;
+}
+
+.noUi-pips-horizontal {
+  padding: 14px 0;
+  height: 50px;
+  top: 100%;
+  left: 0;
+  width: 100%;
+}
+
+.noUi-value-horizontal {
+  margin-left: -20px;
+  padding-top: 14px;
+}
+
+.noUi-value-horizontal.noUi-value-sub {
+  padding-top: 15px;
+}
+
+.noUi-marker-horizontal.noUi-marker {
+  margin-left: -1px;
+  width: 2px;
+  height: 5px;
+}
+
+.noUi-marker-horizontal.noUi-marker-sub {
+  height: 10px;
+}
+
+.noUi-marker-horizontal.noUi-marker-large {
+  height: 14px;
+}
+
+/***************
+ Custom styles 
+****************/
+.slider-scale .noUi-active {
+  transform: scale(1.7);
+}
+
+.slider-balloon .noUi-handle:after {
+  content: "";
+  position: absolute;
+  top: -17.5px;
+  left: -2px;
+  width: 30px;
+  height: 30px;
+  transform-origin: 50% 100%;
+  border-radius: 50%;
+  transform: scale(0.5) rotate(-45deg);
+  transition: all .2s ease;
+  z-index: -1;
+}
+
+.slider-balloon .noUi-tooltip {
+  position: absolute;
+  top: -34px;
+  left: -2px;
+  width: 100%;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0;
+  user-select: none;
+  z-index: 9;
+}
+
+.slider-balloon .noUi-active.noUi-handle:after {
+  top: -12px;
+  left: 5px;
+  border-radius: 15px 15px 15px 0;
+  transform: rotate(-45deg) translate(23px, -25px);
+}
+
+.slider-balloon .noUi-active .noUi-tooltip {
+  opacity: 1;
+  transition: opacity, .7s;
+}
+
+.slider-shadow .noUi-handle.noUi-active {
+  box-shadow: 0 0 0 10px rgba(63, 184, 175, 0.26);
+}
+
+.slider-balloon .noUi-handle:after {
+  background-color: #3FB8AF;
+}
+
+.slider-info .noUi-handle, .slider-info.noUi-connect,
+.slider-info.slider-balloon .noUi-handle:after,
+.slider-info .noUi-connect {
+  background-color: #3BAFDA;
+}
+
+.slider-info.slider-shadow .noUi-handle.noUi-active {
+  box-shadow: 0 0 0 10px rgba(59, 175, 218, 0.26);
+}
+
+.slider-warning .noUi-handle, .slider-warning.noUi-connect,
+.slider-warning.slider-balloon .noUi-handle:after,
+.slider-warning .noUi-connect {
+  background-color: #FF8F00;
+}
+
+.slider-warning.slider-shadow .noUi-handle.noUi-active {
+  box-shadow: 0 0 0 10px rgba(255, 143, 0, 0.26);
+}
+
+.slider-danger .noUi-handle, .slider-danger.noUi-connect,
+.slider-danger.slider-balloon .noUi-handle:after,
+.slider-danger .noUi-connect {
+  background-color: #D84A38;
+}
+
+.slider-danger.slider-shadow .noUi-handle.noUi-active {
+  box-shadow: 0 0 0 10px rgba(216, 74, 56, 0.26);
+}

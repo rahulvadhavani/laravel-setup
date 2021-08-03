@@ -1,0 +1,87 @@
+/*!
+ * Bootstrap-tagsinput  (https://github.com/timschlechter/bootstrap-tagsinput)
+ *
+ * Licensed under MIT (https://github.com/timschlechter/bootstrap-tagsinput/blob/master/LICENSE)
+ */
+.bootstrap-tagsinput {
+  border-bottom: 1px solid;
+  border-bottom-color: #9e9e9e;
+  line-height: 28px;
+  -webkit-transition: 0.3s ease all;
+  -o-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+}
+
+.bootstrap-tagsinput .label {
+  border-radius: 1px;
+  padding: 3px 6px 5px 8px;
+  font-size: 13px;
+}
+
+.bootstrap-tagsinput input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0 6px;
+  margin: 0;
+  width: auto !important;
+  max-width: inherit;
+  border-bottom: none !important;
+}
+
+.bootstrap-tagsinput input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.bootstrap-tagsinput .tag {
+  margin-right: 2px;
+  color: #fff !important;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+  content: "x";
+  padding: 0px 2px;
+}
+
+.bootstrap-tagsinput {
+  position: relative;
+  display: block;
+}
+
+.bootstrap-tagsinput:before, .bootstrap-tagsinput:after {
+  content: '';
+  height: 1px;
+  width: 0;
+  bottom: -1px;
+  position: absolute;
+  background: #5264AE;
+  -webkit-transition: 0.3s ease all;
+  -o-transition: 0.3s ease all;
+  transition: 0.3s ease all;
+}
+
+.bootstrap-tagsinput:before {
+  left: 50%;
+}
+
+.bootstrap-tagsinput:after {
+  right: 50%;
+}
+
+/* active state */
+.bootstrap-tagsinput.active {
+  border-bottom-color: transparent;
+}
+
+.bootstrap-tagsinput.active:before, .bootstrap-tagsinput.active:after {
+  width: 50%;
+}
