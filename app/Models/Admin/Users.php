@@ -1,22 +1,50 @@
 <?php
 
 namespace App\Models\Admin;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
-class Users extends Model implements Authenticatable
-{
-    use AuthenticableTrait;
+class User extends Model implements Authenticatable {
 
-    public $table = 'admin';
+    
+    use AuthenticableTrait;
+    
+    public function getAuthIdentifier() {
+        return $this->getKey();
+    }
+
+    public function getAuthIdentifierName() {
+        return $this->getKeyName();
+    }
+
+    public function getAuthPassword() {
+        return $this->password;
+    }
+
+    public function getRememberToken() {
+        return $this->{$this->getRememberTokenName()};
+    }
+
+    public function getRememberTokenName() {
+        return 'remember_token';
+    }
+
+    public function setRememberToken($value) {
+        $this->{$this->getRememberTokenName()} = $value;
+    }
+    
+    public $table = 'admins';
    
     protected $hidden = array('password', 'remember_token', 'auth_token', 'device_token', 'device_type');
     public static $id_prefix = 'aid_';
     protected $fillable = array('username', 'email', 'password', 'avatar', 'mobile', 'status','remember_token');
-
+//    protected $appends = array('role');
+    
+    public function scopeActive($query) {
+        return $query->where('status', '=', 1);
+    }
+    
     public static function doLogin($param){
         if(isset($param['remember']))
         {
@@ -25,8 +53,9 @@ class Users extends Model implements Authenticatable
                 $param['remember']=1;
             else
                 $param['remember']=0;
+//            \App\Models\Admin\Settings::set_config(['sanitize_input' => $param['remember']]);
         }
-        $user = self::where("email", $param['email'])->first();
+        $user = User::where("email", $param['email'])->first();
         $res['data']=$user;
         $res['flag']=0;
         if (is_null($user)) {
@@ -49,23 +78,67 @@ class Users extends Model implements Authenticatable
             \Auth::guard("admin")->loginUsingId($user->id);
         }
         
-        // \Auth::guard('user')->logout();
+        \Auth::guard('user')->logout();
         $res['flag']=1;
         return $res;
     }
-    public static function setPassword($param){
-        $password = \Hash::make($param['confirm_password']);
-        $user = self::where('id',\Auth::guard('admin')->user()->id)->first();
-        if (\Hash::check($param['old_password'], $user->password)) {
-            if($param['new_password'] != '' && $param['confirm_password'] != '' && $param['new_password'] == $param['confirm_password']){
-                self::where('id',\Auth::guard('admin')->user()->id)->update(['password'=>$password]);
-                $res = \General::success_res('Password saved successfully.');
-            }else{
-                $res = \General::error_res('New password and confirm password must be same.');                
-            }
-        }else{
-            $res = \General::error_res('Old password not match.');
+    
+    
+    public static function change_admin_password($param)
+    {
+        if ($param['old_password'] == '') {
+            return \General::error_res('Old password field is required.');
         }
+        $admin_detail = self::where("id", \Auth::guard('admin')->user()->id)->first();
+        $res['data']= $admin_detail;
+        $res['flag']=0;
+        $res['msg']="";
+        
+        if (is_null($admin_detail)) {
+            return $res;
+        }
+           
+        if(\Hash::check($param['old_password'],$admin_detail->password))
+        {
+            if($param['new_password'] == ''){
+                return \General::error_res('New password field is required.');
+            }elseif($param['confirm_password'] == ''){
+                return \General::error_res('Confirm password field is required.');
+            }
+            if($param['new_password'] == $param['confirm_password'])
+            {
+                $admin_detail->password = \Hash::make($param['new_password']);
+                $admin_detail->save();
+                $res['data']= $admin_detail;
+                $res['flag']=1;
+                $res['msg']="Admin password updated successfullly.";
+                return $res;
+            }
+            else
+            {
+                $res['data']= $admin_detail;
+                $res['flag']=0;
+                $res['msg']="New and Confirm password do not match.";
+                return $res;
+            }
+        }
+        else
+        {
+            $res['msg']="Wrong Old Password.";
+            return $res;
+//            return \General::error_res("Wrong Password.");
+        }
+    }
+    
+    public static function getProfile(){
+        $admin_detail = self::where("id", \Auth::guard('admin')->user()->id)->first()->toArray();
+//        dd($admin_detail);
+        $res['name']=$admin_detail['username'];
+        $res['email']=$admin_detail['email'];
+        $res['flag']=1;
+
         return $res;
     }
+        
 }
+
