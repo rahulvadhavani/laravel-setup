@@ -16,7 +16,6 @@ class General {
 
     static function success_res($msg = "", $args = array()) {
         $msg = $msg == "" ? "success" : $msg;
-//        $msg = \Lang::get('response.'.$msg_id, array('name' => 'Paresh Bhai'));
         $msg_id = 'success.' . $msg;
         $converted = \Lang::get($msg_id, $args);
         $msg = $msg_id == $converted ? $msg : $converted;

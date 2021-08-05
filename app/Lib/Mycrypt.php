@@ -2,8 +2,7 @@
 
 class Mycrypt
 {
-    protected static $skey = "scottiger";
-//    protected static $skey = "_this_is_paresh_";
+    protected static $skey = "rvv";
     
     public static function encrypt($value) {
         

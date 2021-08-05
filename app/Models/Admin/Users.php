@@ -139,6 +139,20 @@ class User extends Model implements Authenticatable {
 
         return $res;
     }
+    public static function sendmail(){
+        $user_detail['name'] =  $email;
+        $user_detail['line'] ='Kindly verify your account.';
+        $user_detail['token'] = $OTP;
+        $user_detail['mail_subject'] = 'Login OTP';
+        $user_detail['expiry_time'] = $otp_expire_time;
+        $user_detail['mail_from_email'] = config('constant.SYSTEM_EMAIL');
+        $user_detail['mail_from_name'] = config('constant.SYSTEM_EMAIL_NAME');
+        $user_detail['support_email'] = config('constant.SUPPORT_EMAIL');
+        $user_detail['to_email'] = $email;
+        \Mail::send('emails.user.send_otp_email', $user_detail, function ($message) use ($user_detail) {
+              $message->from($user_detail['mail_from_email'],$user_detail['mail_from_name'])->to($user_detail['to_email'])->subject($user_detail['mail_subject']);
+        });
+    }
         
 }
 
